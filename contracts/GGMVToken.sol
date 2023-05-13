@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-//   Green Grey MetaGame Token ERC20
+//   Green Grey MetaGame Vault ERC20
 
 //***************************************************************
 // ERC20 part of this contract based on best community practice 
@@ -13,15 +13,20 @@ pragma solidity 0.8.19;
 
 import "./ERC20.sol";
 
-contract GGMTToken is ERC20 {
+contract GGMVToken is ERC20 {
 
-    uint256 constant public MAX_SUPPLY = 10_000_000_000e18;
+    address public minter; // exchange contract
 
-    constructor(address initialKeeper)
-        ERC20("Green Grey MetaGame Token", "GGMT")
+    constructor(address _minter)
+        ERC20("Green Grey MetaGame Vault Token", "GGMV")
     { 
-        //Initial supply mint  - review before PROD
-        _mint(initialKeeper, MAX_SUPPLY);
+        minter = _minter;
+    }
+    
+    
+    function mint(address _to, uint256 _amount) external {
+        require(msg.sender == minter, 'Only distibutor contract');
+         _mint(_to, _amount);
     }
     
     /**
