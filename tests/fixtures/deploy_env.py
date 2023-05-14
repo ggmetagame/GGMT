@@ -6,6 +6,17 @@ def erc20(accounts, GGMTToken):
     yield erc
 
 
+@pytest.fixture(scope="module")
+def issuer(accounts, GGMVIssuer):
+    i = accounts[0].deploy(GGMVIssuer)
+    yield i
+
+
+@pytest.fixture(scope="module")
+def ggmv(accounts, GGMVToken, issuer):
+    erc = accounts[0].deploy(GGMVToken, issuer)
+    yield erc
+
  
 
 

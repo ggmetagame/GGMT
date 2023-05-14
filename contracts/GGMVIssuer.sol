@@ -9,7 +9,7 @@ import "../interfaces/IERC20Mint.sol";
 contract  GGMVIssuer is Ownable {
     using SafeERC20 for IERC20;
 
-    uint256 constant public PERCENT_DENOMINATOR = 100;
+    uint256 constant public PERCENT_DENOMINATOR = 10000;
 
     struct Rate {
         uint256 rate;
@@ -32,6 +32,11 @@ contract  GGMVIssuer is Ownable {
     event PoolsIncome(address indexed pool, uint256 amount);
     event PoolChanged(address indexed pool, uint256 percent);
     event PoolRemoved(address indexed pool);
+
+    constructor(){
+        ggmvRate = Rate(1,1);
+    }
+
     function getGGMVForExactGGMT(uint256 _GGMTAmount) external returns (uint256 GGMVAmount){
         // 1. Some checks
         // TODO not to small
@@ -57,6 +62,14 @@ contract  GGMVIssuer is Ownable {
         _distributeGGMT(_GGMTAmount);
          
     }
+
+    function getPoolPercents() external view returns(PoolPercents[] memory){
+        return pools;
+    }
+
+    function calcTokensForExactGGMT(uint256 _GGMTAmount) external view returns(uint256){
+        return _calcTokensForExactGGMT(_GGMTAmount);
+    }
     ///////////////////////////////////////////////////////////
     ///////    Admin Functions        /////////////////////////
     ///////////////////////////////////////////////////////////
@@ -81,39 +94,67 @@ contract  GGMVIssuer is Ownable {
         ggmvRate = _rate;
     }
 
-    function setPoolPercenr(address _pool, uint256 _percent) 
-        external 
+    function setPools(PoolPercents[] calldata _pools) 
+        public 
         onlyOwner 
     {
-        require(_pool != address(0), "Not zero address");
-        // check  that pool exist in array
-        for (uint256 i; i < pools.length; ++ i){
-            if (pools[i].pool == _pool) {
-                pools[i].percent = _percent;
-                return;
-            }
+        
+        for (uint256 i; i < _pools.length; ++ i){
+            require(_pools[i].pool != address(0), "Not zero address");
+            pools.push(_pools[i]);
+            emit PoolChanged(_pools[i].pool, _pools[i].percent);
         }
-        pools.push(PoolPercents(_percent, _pool));
 
         // check that all pools <=100%
         uint256 sum;
         for (uint256 i; i < pools.length; ++ i){
             sum += pools[i].percent;
+            
         }
-        require (sum == 100 * PERCENT_DENOMINATOR, "Pool percent amount must be 100%");
+        require (sum == PERCENT_DENOMINATOR, "Pool percent amount must be 100%");
+        
+    }
+
+    function replacePools(PoolPercents[] calldata _pools) 
+        external 
+        onlyOwner 
+    {
+        // remove old pools
+        for (uint256 i = pools.length; i > 0; -- i){
+            pools.pop();
+        }
+        setPools(_pools);
+
+    }
+
+    function editPoolByIndex(uint256 _poolIndex, address _pool, uint256 _percent) 
+        external 
+        onlyOwner
+    {
+        require(_pool != address(0), "Not zero address");
+        pools[_poolIndex] = PoolPercents(_percent, _pool);
         emit PoolChanged(_pool, _percent);
+
     }
 
     function removePoolByIndex(uint256 _poolIndex) 
         external 
         onlyOwner
     {
+        address _toRemove = pools[_poolIndex].pool;
         if (_poolIndex != pools.length - 1) {
             // just replace deleted item with last item
             pools[_poolIndex] = pools[pools.length - 1];
         } 
         pools.pop();
-        emit PoolRemoved(pools[_poolIndex].pool);
+        emit PoolRemoved(_toRemove);
+    }
+
+    function setBlackListStatus(address _addr, bool _isBlack) 
+        external 
+        onlyOwner 
+    {
+        blacklist[_addr] = _isBlack;
     }
 
     function withdrawERC20(address _erc20) external onlyOwner {
