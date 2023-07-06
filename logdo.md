@@ -6,21 +6,22 @@
 ```
 
 
-### 2023-01-20 Deploy in Testnet
-https://testnet.bscscan.com/address/0xe80028240C5d648ACd72448fef378e1D0c838087
+### 2023-05-20 Deploy in Testnet
+----------Deployment artifacts-------------------
+
+**GGMT ERC20**
+https://goerli.etherscan.io/address/0xC47E36B9b91305359f9610d91F54B67b8CfAC12B#code
+**issuer**
+https://goerli.etherscan.io/address/0x00eCF037DA7616772cc10f1a98C0819350900DBF#code
+**GGMV ERC20**
+https://goerli.etherscan.io/address/0x7Fe48EE4FBAE0aAf9540688951208D0D5609b860#code
 
 ```python
-badadao= BadaDAO.at('0xe80028240C5d648ACd72448fef378e1D0c838087')
+tx_params={'from':accounts[0], 'priority_fee': chain.priority_fee}
+
+ggmt= GGMTToken.at('0xC47E36B9b91305359f9610d91F54B67b8CfAC12B')
+issuer = GGMVIssuer.at('0x00eCF037DA7616772cc10f1a98C0819350900DBF')
+ggmv = GGMVToken.at('0x7Fe48EE4FBAE0aAf9540688951208D0D5609b860')
+
+
 ```
-
-### 2023-01-20 Deploy in Production
-https://bscscan.com/address/0x94C0fD56c63F323A14b398279327397Db8195eb6
-
-```python
-INITIAL_TOKEN_KEEPER = '0xCa894651c02041e29DedA4360545e68018746046'
-
-BadaDAO.deploy(INITIAL_TOKEN_KEEPER, {'from':accounts[0]}, publish_source = True)
-badadao= BadaDAO.at('0x94C0fD56c63F323A14b398279327397Db8195eb6')
-```
-deployer 0xE89805cc1d8D2011478f02Cef20f5E03dd412E25
-?quathNofBoor9

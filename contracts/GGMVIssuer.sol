@@ -174,7 +174,7 @@ contract  GGMVIssuer is Ownable {
     }
 
     function _calcTokensForExactGGMT(uint256 _inAmount) internal view virtual returns (uint256){
-        return _inAmount / ggmvRate.rate * ggmvRate.denominator;
+        return _inAmount * ggmvRate.denominator / ggmvRate.rate ;
     }
 
     function _isBlackListed(address _sender) internal view virtual returns (bool){
