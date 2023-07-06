@@ -16,11 +16,17 @@ Deploy is very simple. You can find workflow in
 
 
 #### Ethereum Mainnet 
-Deployed at block 16889176 with addreess 
+**GGMT ERC20** Deployed at block 16889176 with addreess 
 `0xA5FeD2453da128747d06E937c9493F77941B7B6E` (Keys can be obtain on demand)    
 https://etherscan.io/address/0x76aAb5FD2243d99EAc92d4d9EBF23525d3ACe4Ec  
-Initial supply keeper is `0x607479d4b8dD98e78b0b80020c6684fd3b83D048`
+Initial supply keeper is `0x607479d4b8dD98e78b0b80020c6684fd3b83D048`  
 
+
+**issuer**  
+https://etherscan.io/address/0xf61CD8907d95E9BADDDe4CE64816A63B4f1cB12D#code   
+
+**GGMV ERC20**  
+https://etherscan.io/address/0xaB920C4B41F6071f0028F344c397420E374089e7#code
 
 ---
 #### Gas Consumption Info

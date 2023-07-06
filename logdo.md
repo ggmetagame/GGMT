@@ -1,6 +1,19 @@
+### 2023-07-06 Deploy in Ethereum Mainnet
+----------Deployment artifacts-------------------
 
+**GGMT ERC20**
+https://etherscan.io/address/0x76aAb5FD2243d99EAc92d4d9EBF23525d3ACe4Ec#code
+**issuer**
+https://etherscan.io/address/0xf61CD8907d95E9BADDDe4CE64816A63B4f1cB12D#code
+**GGMV ERC20**
+https://etherscan.io/address/0xaB920C4B41F6071f0028F344c397420E374089e7#code
 
 ```python
+
+ggmt= GGMTToken.at('0x76aAb5FD2243d99EAc92d4d9EBF23525d3ACe4Ec')
+issuer = GGMVIssuer.at('0xf61CD8907d95E9BADDDe4CE64816A63B4f1cB12D')
+ggmv = GGMVToken.at('0xaB920C4B41F6071f0028F344c397420E374089e7')
+
 
 
 ```

@@ -2,11 +2,10 @@ from brownie import *
 import json
 
 if  web3.eth.chain_id in [4, 5, 97, 1313161555]:
-    # Testnets
-    #private_key='???'
     accounts.load('ttwo');
+
 elif web3.eth.chain_id in [1,56,137, 1313161554]:
-    accounts.load('ubd_deployer')
+    accounts.load('ggmt_deployer')
     
 print('Deployer:{}, balance: {}'.format(accounts[0],Wei(accounts[0].balance()).to('ether') ))
 print('web3.eth.chain_id={}'.format(web3.eth.chainId))
