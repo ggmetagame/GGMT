@@ -15,7 +15,7 @@ import "./ERC20.sol";
 
 contract GGMVToken is ERC20 {
 
-    address public minter; // exchange contract
+    address immutable public minter; // exchange contract
 
     constructor(address _minter)
         ERC20("Green Grey MetaGame Vault Token", "GGMV")

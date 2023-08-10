@@ -164,11 +164,13 @@ contract  GGMVIssuer is Ownable {
     
     function _distributeGGMT(uint256 _GGMTAmount) internal virtual {
         for (uint256 i; i < pools.length; ++ i){
+            PoolPercents memory pl = pools[i];
+            uint256 amount = pl.percent * _GGMTAmount  / PERCENT_DENOMINATOR;
             IERC20(ggmt).safeTransfer(
-                pools[i].pool,
-                _GGMTAmount * pools[i].percent / PERCENT_DENOMINATOR
+                pl.pool,
+                amount
             );
-            emit PoolsIncome(pools[i].pool, _GGMTAmount * pools[i].percent / PERCENT_DENOMINATOR);
+            emit PoolsIncome(pl.pool, amount);
         }
 
     }
@@ -179,11 +181,11 @@ contract  GGMVIssuer is Ownable {
 
     function _isBlackListed(address _sender) internal view virtual returns (bool){
         // Pools can`t be sender
-        for (uint256 i; i < pools.length; ++ i){
-            if (pools[i].pool == msg.sender){
-                return true;
-            }
-        }
+        // for (uint256 i; i < pools.length; ++ i){
+        //     if (pools[i].pool == msg.sender){
+        //         return true;
+        //     }
+        // }
 
         // Not in blacklist
         return blacklist[msg.sender]; 
